@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+// import { roles } from "../utils/constants.js";
 
 const  doctorSchema = new mongoose.Schema({
     firstName:{
@@ -16,7 +17,7 @@ const  doctorSchema = new mongoose.Schema({
         required:true,
         unique:true
     },
-    hashPassword:{
+    hashedPassword:{
         type:String,
         required:true,
         minLength:6,
@@ -26,19 +27,45 @@ const  doctorSchema = new mongoose.Schema({
         required:true,
         maxLength:50,
     },
+    qualifications:{
+        type:String,
+        required:true,
+        maxLength:50,
+    },
+    phoneNumber:{
+        type:Number,
+        required:true,
+        maxLength:10,
+    },
     experiences:{
         type:String,
         required:true,
         maxLength:50,
     },
-    feesPerCunsaltation:{
+    fees:{
         type:Number,
         required:true,
     },
     timings:{
         type:Object,
         required:true,
-    },   
+    },
+    role: {
+        type: String,
+        enum: "doctor",
+    },
+    bloodGroup: {
+        type: String,
+        required: true,
+    },
+    age: {
+        type: Number,
+        required: true,
+    },
+    gender: {
+        type: String,
+        required: true,
+    },  
 
 },
     {
@@ -46,6 +73,6 @@ const  doctorSchema = new mongoose.Schema({
     }
 );
 
-const doctor = mongoose.model("doctor",doctorSchema);
+const Doctor = mongoose.model("Doctor",doctorSchema);
 
-export default doctor;
+export default Doctor;

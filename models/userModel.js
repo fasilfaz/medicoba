@@ -25,19 +25,30 @@ const userSchema = new mongoose.Schema(
         required: true,
         maxLength: 50,
       },
+      bloodGroup: {
+        type: String,
+        required: true,
+      },
+      age: {
+        type: Number,
+        required: true,
+      },
+      gender: {
+        type: String,
+        required: true,
+      },
       role: {
         type: String,
-        enum: [roles.admin, roles.user],
-        default: roles.user,
+        enum: [roles.admin,roles.patient],
+        default: roles.patient,
       },
-      notification: {
-        type: Array,
-        default: [],
-      },
-      seenNotification: {
-        type: Array,
-        default: [],
-      },
+      phoneNumber: {
+        type: Number,
+        required: true,
+        maxLength: 10,
+      }
+      
+      
     },
     { timestamps : true }
   );

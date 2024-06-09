@@ -1,4 +1,4 @@
-import express, { json } from "express";
+import express from "express";
 import { login, logout, register} from "../controllers/userController.js";
 import authenticateUser from "../middlewares/userMiddleware.js";
 import User from "../models/userModel.js";
@@ -10,7 +10,7 @@ userRouter.get("/check-user", authenticateUser, async (req, res) => {
     console.log("data", user.data);
     const findUser =  await User.findOne({ email: user.email });
     if (!findUser) {
-        return res,json({message: "authentication failed", success: false})
+        return res.json({message: "authentication failed", success: false})
     }
     res.json({message: "authenticateUser", success: true});
 })

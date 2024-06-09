@@ -4,6 +4,8 @@ import {connectDb} from "./config/db.js";
 import userRouter from './routes/userRouter.js';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
+import doctorRouter from './routes/doctorRouter.js';
+import adminRouter from './routes/adminRouter.js';
 dotenv.config();
 
 //rest object
@@ -20,6 +22,8 @@ app.use(cors({
 
 //routes
 app.use("/api/v1/user",userRouter );
+app.use("/api/v1/doctor",doctorRouter);
+app.use("/api/v1/admin",adminRouter);
 
 //port
 const port = 3000;
