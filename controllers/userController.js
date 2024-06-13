@@ -8,7 +8,7 @@ dotenv.config();
 
 export const register = async (req, res) => {
     try {
-        const { firstName, lastName, email, password, age, gender, bloodGroup, phoneNumber } = req.body;
+        const { firstName, lastName, email, password, age, gender, bloodGroup, phoneNumber,notifications, seennotifications } = req.body;
         const userExist = await User.findOne({ email});
         if (userExist) {
             return res.status(200).send("User already exist");
@@ -16,7 +16,7 @@ export const register = async (req, res) => {
 
         const saltRounds = 10;
         const hashPassword = await bcrypt.hash(password, saltRounds);
-        let role = roles.user;
+        let role = roles.patient;
         if (email === process.env.ADMIN_EMAIL){
             role = roles.admin;
         }
@@ -30,6 +30,8 @@ export const register = async (req, res) => {
             bloodGroup,
             role,
             phoneNumber,
+            notifications,
+            seennotifications,
         });
         console.log(newUser);
         const newUserCreated = await newUser.save();
@@ -38,7 +40,7 @@ export const register = async (req, res) => {
         if(!newUserCreated){
             return res.send("User not created");
         }
-        const token = generateToken(email);
+        const token = generateToken(email , role);
         res.cookie("token", token );
         sendMail(email, "Welcome to Medico Super Speciality Hospital", `Hi ${firstName} ${lastName} We are delighted to have you join our community. 
         Thank you for registering with us and trusting us with your healthcare needs.`)
@@ -62,7 +64,7 @@ export const login = async (req, res) => {
         if (!isMatch) {
             return res.status(200).send("Invalid Password");
         }
-        const token = generateToken(email);
+        const token = generateToken(email , user.role);
         res.cookie("token", token );
         if (email === process.env.ADMIN_EMAIL){
             return res.json({message: "Admin logged in successfully", token});
@@ -98,18 +100,39 @@ export const getAllUsers = async (req, res) => {
     }
 }
 
-// export const removeAllUsers = async (req, res) => {
-//     const id = req.params.id;
-//     console.log(id);
-//     const users = await User.find({ _id: id })
-//     if(!users) {
-//         return res.status(404).send("User not found");
-//     }
-
-//     const remove = await User.deleteOne({ _id: id });
-
-//     if (!remove) {
-//         return res.status(404).send("User not deleted");
-//     }
-//     return res.send("User deleted");
-// }
+export const getAllNotifications = async (req, res) => {
+    try {
+        const user = await User.findOne({_id: req.body.userId});
+        const notifications = user.notifications;
+        const seennotifications = user.seennotifications;
+        seennotifications.push(...notifications);
+        user.notifications = [];
+        user.seennotifications = notifications;
+        const updatedUser = await user.save();
+        res.status(200).send({
+            message: "All Notifications fetched", 
+            success: true,
+            data: updatedUser,
+        })
+    } catch (error) {
+        console.log(error)
+        res.status(500).send({message: "Error in notification", success: false, error})
+    }
+}
+export const deleteAllNotifications = async (req, res) => {
+    try {
+        const user = await User.findOne({_id:req.body.userId})
+        user.notifications = [];
+        user.seennotifications = [];
+        const updatedUser = await user.save();
+        updatedUser.hashPassword = undefined;
+        res.status(200).send({
+            message: "All Notifications deleted", 
+            success: true,
+            data: updatedUser,
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({message: "unable to delete notification", success: false, error})
+    }
+}

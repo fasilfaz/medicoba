@@ -2,7 +2,6 @@ import Doctor from "../models/doctorModel.js";
 import bcrypt from "bcrypt";
 import { doctorToken } from "../utils/generateToken.js";
 import dotenv from "dotenv"
-import mongoose from "mongoose";
 dotenv.config();
 
 export const register = async (req, res) => {
@@ -21,7 +20,8 @@ export const register = async (req, res) => {
             age,
             gender,
             bloodGroup,
-            role } = req.body;
+            role, 
+             } = req.body;
         const doctorExist = await Doctor.findOne({ email}); 
         if (doctorExist) {
             return res.status(200).send("Doctor already exist");
@@ -42,14 +42,14 @@ export const register = async (req, res) => {
             age,
             bloodGroup,
             gender,
-            role,
+            role: "DOCTOR",
         });
         const newDoctorCreated = await newDoctor.save();
         console.log(newDoctorCreated);
         if (!newDoctorCreated) {
             return res.status(200).send("Doctor not created");
         }
-        const token = doctorToken(email);
+        const token = doctorToken(email , role);
         res.cookie("token", token);
         res.json({ message: "Register successfully", token });
         console.log("Register successfully");
@@ -70,7 +70,7 @@ export const login = async (req, res) => {
         if (!isMatch) {
             return res.status(200).send("Invalid Password");
         }
-        const token = doctorToken(email);
+        const token = doctorToken(email , doctor.role);
         res.cookie("token", token );
         res.json({message: "Doctor logged in successfully", token});
         console.log("Dr logged in");
@@ -88,10 +88,9 @@ export const getAllDr = async (req, res) => {
 export const removeDrs = async (req, res) => {
    try {
      let {id} = req.params;
-     console.log(id);
      let doesExist = await Doctor.findById(id);
      if(!doesExist) throw new Error ("Doctor with id not exist")
-     console.log(id);
+     console.log(id)
      await Doctor.findByIdAndDelete(id);
      res.status(200).send({message: "doctor deleted"})
    } catch (error) {

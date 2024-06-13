@@ -1,29 +1,34 @@
 import express from "express";
-import authDoctor from '../middlewares/doctorMiddleware.js';
 import { login, register } from '../controllers/doctorController.js';
 import Doctor from '../models/doctorModel.js';
+import authDoctor from "../middlewares/doctorMiddleware.js";
 
 
 const doctorRouter = express.Router();
 
-doctorRouter.get("/check-doctor", authDoctor, async (req, res) => {
+doctorRouter.get("/check-doctor",authDoctor,  async (req, res) => {
     const doctor = req.user;
-    const findDoctor =  await doctor.findOne({email: doctor.email});
+    console.log("data", doctor.data);
+    const findDoctor =  await Doctor.findOne({email: doctor.email});
     if (!findDoctor) {
-        return res.json({message: "authentication failed", success: false})
+        return res.json({message: "authentication failed..", success: false})
     }
-    res.json({message: "authenticateDoctor", success: true});
+    res.json({message: "authenticateDoctor", success: true, findDoctor});
 });
 
-doctorRouter.get("/getdoctor", authDoctor, async (req, res) => {
-    const doctor = req.user;
 
-    const getDoctor = await Doctor.findOne({ email: doctor.data});
-    if (!getDoctor){
-        return res.json({message: "Doctor not found", success: false})
+doctorRouter.get("/getdr", authDoctor, async (req, res) => {
+    console.log("doctor", req.user)
+    const userDetails = req.user;
+    console.log("data", userDetails);
+    const getDr = await Doctor.findOne({email: userDetails.data});
+    if(!getDr){
+        return res.json({message: "can't get dr details", success: false})
     }
-    res.json({message: "Doctor details got", success:true, data: getDoctor})
-});
+    res.json({message: "dr details get", success:true, data: getDr})
+     
+}); 
+
 
 
 doctorRouter.post("/register", register);

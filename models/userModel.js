@@ -46,7 +46,16 @@ const userSchema = new mongoose.Schema(
         type: Number,
         required: true,
         maxLength: 10,
-      }
+      },
+      notifications: {
+        type: Array,
+        default: [],
+      },
+      seennotifications: {
+        type: Array,
+        default: [],
+      },
+      services: [{ type: mongoose.Types.ObjectId, ref: "Service"}],
       
       
     },

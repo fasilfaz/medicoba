@@ -1,5 +1,5 @@
 import express from "express";
-import { login, logout, register} from "../controllers/userController.js";
+import { getAllNotifications,deleteAllNotifications, login, logout, register} from "../controllers/userController.js";
 import authenticateUser from "../middlewares/userMiddleware.js";
 import User from "../models/userModel.js";
 
@@ -32,6 +32,8 @@ userRouter.get("/", (req, res) => {
 userRouter.post('/login', login);
 userRouter.post("/register", register);
 userRouter.post("/logout",logout);
+userRouter.post("/get-notification", getAllNotifications);
+userRouter.post("/delete-notification", deleteAllNotifications);
 
 
 export default userRouter;

@@ -1,7 +1,9 @@
 import mongoose from "mongoose";
-// import { roles } from "../utils/constants.js";
 
 const  doctorSchema = new mongoose.Schema({
+    userId: {
+        type:String,
+    },
     firstName:{
         type:String,
         required:true,
@@ -52,8 +54,8 @@ const  doctorSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        enum: "doctor",
-    },
+        enum: "DOCTOR",
+      },
     bloodGroup: {
         type: String,
         required: true,
