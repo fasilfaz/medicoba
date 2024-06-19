@@ -11,23 +11,23 @@ dotenv.config();
 //rest object
 const app = express();
 
-var whitelist = ['http://localhost:5173', 'https://medico-7dl6rov5n-fasils-projects-11c0a246.vercel.app']
-var corsOptions = {
-  origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true)
-    } else {
-      callback(new Error('Not allowed by CORS'))
-    }
-  },
-  Credentials: true, 
-};
+// var whitelist = ['http://localhost:5173', 'https://medico-7dl6rov5n-fasils-projects-11c0a246.vercel.app']
+// var corsOptions = {
+//   origin: function (origin, callback) {
+//     if (whitelist.indexOf(origin) !== -1) {
+//       callback(null, true)
+//     } else {
+//       callback(new Error('Not allowed by CORS'))
+//     }
+//   },
+//   Credentials: true, 
+// };
 
 //middlewares
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-    origin: "http://localhost:5173", 
+    origin: ["http://localhost:5173", "https://medico-7dl6rov5n-fasils-projects-11c0a246.vercel.app"], 
     credentials: true,
 }));
 
