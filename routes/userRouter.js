@@ -2,6 +2,7 @@ import express from "express";
 import { getAllNotifications,deleteAllNotifications, login, logout, register} from "../controllers/userController.js";
 import authenticateUser from "../middlewares/userMiddleware.js";
 import User from "../models/userModel.js";
+import upload from "../middlewares/imgUploadMdlw.js";
 
 const userRouter = express.Router();
 
@@ -30,7 +31,7 @@ userRouter.get("/", (req, res) => {
 });
 
 userRouter.post('/login', login);
-userRouter.post("/register", register);
+userRouter.post("/register",upload.single("image"), register);
 userRouter.post("/logout",logout);
 userRouter.post("/get-notification", getAllNotifications);
 userRouter.post("/delete-notification", deleteAllNotifications);

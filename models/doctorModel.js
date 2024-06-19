@@ -67,6 +67,10 @@ const  doctorSchema = new mongoose.Schema({
     gender: {
         type: String,
         required: true,
+    },
+    image: {
+        type: String,
+        required: true,
     },  
 
 },

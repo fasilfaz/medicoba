@@ -4,48 +4,77 @@ import { generateToken } from "../utils/generateToken.js";
 import { roles } from "../utils/constants.js";
 import dotenv from "dotenv";
 import sendMail from "../middlewares/sendMail.js";
+import { cloudinaryInstance } from "../config/cloudinary.js";
 dotenv.config();
 
 export const register = async (req, res) => {
     try {
-        const { firstName, lastName, email, password, age, gender, bloodGroup, phoneNumber,notifications, seennotifications } = req.body;
-        const userExist = await User.findOne({ email});
-        if (userExist) {
-            return res.status(200).send("User already exist");
+        if (!req.file) {
+            return res.status(400).json({ success: false, message: "no file provided" });
         }
-
-        const saltRounds = 10;
-        const hashPassword = await bcrypt.hash(password, saltRounds);
-        let role = roles.patient;
-        if (email === process.env.ADMIN_EMAIL){
-            role = roles.admin;
-        }
-        const newUser = new User({
-            firstName,
-            lastName,
-            email,
-            hashPassword,
-            age,
-            gender,
-            bloodGroup,
-            role,
-            phoneNumber,
-            notifications,
-            seennotifications,
+        cloudinaryInstance.uploader.upload(req.file.path, async (err, result) => {
+            if (err) {
+                console.log(err , "error");
+                return res.status(500).json({
+                    success: false,
+                    message: "error",
+                });
+            }
+            console.log(result);
+            const imageUrl = result.url;
+            const body = req.body;
+            const { firstName,
+                 lastName,
+                  email,
+                   password, 
+                   age, 
+                   gender, 
+                   bloodGroup, 
+                   phoneNumber, 
+                   notifications, 
+                   seennotifications,
+                 } = body;
+            const userExist = await User.findOne({ email});
+            if (userExist) {
+                return res.status(200).send("User already exist");
+            }
+    
+            const saltRounds = 10;
+            const hashPassword = await bcrypt.hash(password, saltRounds);
+            let role = roles.patient;
+            if (email === process.env.ADMIN_EMAIL){
+                role = roles.admin;
+            }
+            const newUser = new User({
+                firstName,
+                lastName,
+                email,
+                hashPassword,
+                age,
+                gender,
+                bloodGroup,
+                role,
+                phoneNumber,
+                notifications,
+                seennotifications,
+                image: imageUrl,
+            });
+            console.log(newUser);
+            const newUserCreated = await newUser.save();
+            console.log(newUserCreated);
+    
+            if(!newUserCreated){
+                return res.send("User not created");
+            }
+            const token = generateToken(email , role);
+            res.cookie("token", token );
+            sendMail(email, "Welcome to Medico Super Speciality Hospital", `Hi ${firstName} ${lastName} We are delighted to have you join our community. 
+            Thank you for registering with us and trusting us with your healthcare needs.`)
+            res.json( {message:"Register successfully", token});
+            console.log("Register successfully")
         });
-        console.log(newUser);
-        const newUserCreated = await newUser.save();
-        console.log(newUserCreated);
-
-        if(!newUserCreated){
-            return res.send("User not created");
-        }
-        const token = generateToken(email , role);
-        res.cookie("token", token );
-        sendMail(email, "Welcome to Medico Super Speciality Hospital", `Hi ${firstName} ${lastName} We are delighted to have you join our community. 
-        Thank you for registering with us and trusting us with your healthcare needs.`)
-        res.json( {message:"Register successfully", token});
-        console.log("Register successfully")
+       
+       
     } catch (error) {
         console.error(error);
         res.status(500).send("Internal Server Error");

@@ -10,13 +10,13 @@ const serviceSchema = new mongoose.Schema({
     description: {
         type: String,
         required: true,
-        maxLength: 100,
+        maxLength: 800,
     },
     image: {
         type: String,
         required: true,
     },
-    admin: [{ type: mongoose.Types.ObjectId, ref: "User"}],
+    
     
 },
     {

@@ -57,8 +57,19 @@ export const updateService = async (req, res) => {
         return res.send("Service not updated");
     }
     console.log(updatedService);
-    return res.send(updatedService);
+    return res.send("service updated");
 };
+
+export const getServiceId = async (req, res) => {
+    const id = req.params.id;
+    const service = await Service.findById({ _id: id });
+    console.log(service);
+    if (!service) {
+        return res.send("Service not found");
+    }
+    return res.send("service get by id");
+    
+}
 
 export const deleteService = async (req, res) => {
     const id = req.params.id;

@@ -2,6 +2,7 @@ import express from "express";
 import { login, register } from '../controllers/doctorController.js';
 import Doctor from '../models/doctorModel.js';
 import authDoctor from "../middlewares/doctorMiddleware.js";
+import upload from "../middlewares/imgUploadMdlw.js";
 
 
 const doctorRouter = express.Router();
@@ -31,7 +32,7 @@ doctorRouter.get("/getdr", authDoctor, async (req, res) => {
 
 
 
-doctorRouter.post("/register", register);
+doctorRouter.post("/register",upload.single("image"), register);
 doctorRouter.post("/login", login);
 
 export default doctorRouter;

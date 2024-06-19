@@ -2,32 +2,52 @@ import Doctor from "../models/doctorModel.js";
 import bcrypt from "bcrypt";
 import { doctorToken } from "../utils/generateToken.js";
 import dotenv from "dotenv"
+import { cloudinaryInstance } from "../config/cloudinary.js";
+import sendMail from "../middlewares/sendMail.js";
 dotenv.config();
 
 export const register = async (req, res) => {
     try {
-        const { 
-            firstName, 
-            lastName, 
-            email, 
-            password, 
-            phoneNumber, 
-            qualifications, 
-            specializations, 
-            fees, 
-            timings, 
-            experiences,
-            age,
-            gender,
-            bloodGroup,
-            role, 
-             } = req.body;
+        if (!req.file) {
+            return res.status(400).json({ success: false, message: "no file provided" });
+
+        }
+        cloudinaryInstance.uploader.upload(req.file.path, async (err, result) => {
+            if (err) {
+                console.log(err, "error");
+                return res.status(500).json({
+                    success: false,
+                    message: "error",
+                });
+            }
+            console.log(result);
+            const imageUrl = result.url;
+            const body = req.body;
+            const { 
+                firstName, 
+                lastName, 
+                email, 
+                password, 
+                phoneNumber, 
+                qualifications, 
+                specializations, 
+                fees, 
+                timings, 
+                experiences,
+                age,
+                gender,
+                bloodGroup,
+                role, 
+                 } = body;
+
         const doctorExist = await Doctor.findOne({ email}); 
         if (doctorExist) {
             return res.status(200).send("Doctor already exist");
         }
         const saltRounds = 10;
         const hashedPassword = await bcrypt.hash(password, saltRounds);
+       
+
         const newDoctor = new Doctor({
             firstName, 
             lastName, 
@@ -42,6 +62,7 @@ export const register = async (req, res) => {
             age,
             bloodGroup,
             gender,
+            image: imageUrl,
             role: "DOCTOR",
         });
         const newDoctorCreated = await newDoctor.save();
@@ -51,8 +72,15 @@ export const register = async (req, res) => {
         }
         const token = doctorToken(email , role);
         res.cookie("token", token);
+        sendMail(email, "Welcome to Medico Super Speciality Hospital", `Hi Dr. ${firstName} ${lastName} We are delighted to have you join our community. 
+            Thank you for registering with us and join our team.`)
+            res.json( {message:"Register successfully", token});
+            console.log("Register successfully")
         res.json({ message: "Register successfully", token });
         console.log("Register successfully");
+        })
+       
+        
 
     } catch (error) {
         console.error(error);
@@ -97,4 +125,47 @@ export const removeDrs = async (req, res) => {
     console.error(error);
     res.status(400).send({error:'Error: ' + error.message})
    }
+};
+
+export const updateDr = async (req, res) => {
+    const id = req.params.id;
+    const { 
+        firstName, 
+        lastName, 
+        email, 
+        password, 
+        phoneNumber, 
+        qualifications, 
+        specializations, 
+        fees, 
+        timings, 
+        experiences,
+        age,
+        gender,
+        bloodGroup,
+        role, 
+         } = req.body;
+         const updateDr = await Doctor.findByIdAndUpdate(
+            { _id: id},
+            { firstName, 
+                lastName, 
+                email, 
+                password, 
+                phoneNumber, 
+                qualifications, 
+                specializations, 
+                fees, 
+                timings, 
+                experiences,
+                age,
+                gender,
+                bloodGroup,
+                role,},
+                { new: true },
+         );
+         if (!updateDr) {
+            return res.status(200).send("Doctor not updated");
+         }
+         console.log(updateDr);
+         return res.send("Doctor updated");
 };

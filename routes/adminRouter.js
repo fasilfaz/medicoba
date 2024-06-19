@@ -4,7 +4,7 @@ import { getAllUsers } from '../controllers/userController.js';
 import { getAllDr, removeDrs } from '../controllers/doctorController.js';
 import authAdmin from '../middlewares/adminMiddleware.js';
 import upload from '../middlewares/imgUploadMdlw.js';
-import { createService, deleteService, getServices, updateService } from '../controllers/serviceController.js';
+import { createService, deleteService, getServiceId, getServices, updateService } from '../controllers/serviceController.js';
 
 const adminRouter = express.Router();
 
@@ -15,6 +15,7 @@ adminRouter.post("/add-services", upload.single("image"), authAdmin, createServi
 adminRouter.get("/get-services", getServices );
 adminRouter.put("/update-services/:id", upload.single("image"), authAdmin, updateService );
 adminRouter.delete("/delete-services/:id", authAdmin, deleteService);
+adminRouter.get("/get-servicesbyid/:id", authAdmin, getServiceId)
 
 
 export default adminRouter;

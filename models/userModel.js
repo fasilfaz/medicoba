@@ -55,7 +55,10 @@ const userSchema = new mongoose.Schema(
         type: Array,
         default: [],
       },
-      services: [{ type: mongoose.Types.ObjectId, ref: "Service"}],
+      image: {
+        type: String,
+        required: true,
+      },
       
       
     },
