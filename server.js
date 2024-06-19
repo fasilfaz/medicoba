@@ -27,7 +27,7 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-    origin: ["http://localhost:5173", "https://medico-7dl6rov5n-fasils-projects-11c0a246.vercel.app"], 
+    origin: ["http://localhost:5173", "https://medico-flax.vercel.app/user/login"], 
     credentials: true,
 }));
 
