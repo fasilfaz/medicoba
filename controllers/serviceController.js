@@ -67,7 +67,7 @@ export const getServiceId = async (req, res) => {
     if (!service) {
         return res.send("Service not found");
     }
-    return res.send("service get by id");
+    return res.json({message: "service get by id", service: service , success: true});
     
 }
 

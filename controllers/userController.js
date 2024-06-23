@@ -1,3 +1,4 @@
+
 import User from "../models/userModel.js";
 import bcrypt from "bcrypt";
 import { generateToken } from "../utils/generateToken.js";
@@ -66,7 +67,7 @@ export const register = async (req, res) => {
             if(!newUserCreated){
                 return res.send("User not created");
             }
-            const token = generateToken(email , role);
+            const token = generateToken(email);
             res.cookie("token", token );
             sendMail(email, "Welcome to Medico Super Speciality Hospital", `Hi ${firstName} ${lastName} We are delighted to have you join our community. 
             Thank you for registering with us and trusting us with your healthcare needs.`)
@@ -93,7 +94,7 @@ export const login = async (req, res) => {
         if (!isMatch) {
             return res.status(200).send("Invalid Password");
         }
-        const token = generateToken(email , user.role);
+        const token = generateToken(email);
         res.cookie("token", token );
         if (email === process.env.ADMIN_EMAIL){
             return res.json({message: "Admin logged in successfully", token});

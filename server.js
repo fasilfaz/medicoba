@@ -11,7 +11,7 @@ dotenv.config();
 //rest object
 const app = express();
 
-// var whitelist = ['http://localhost:5173', 'https://medico-7dl6rov5n-fasils-projects-11c0a246.vercel.app']
+// var whitelist = ['http://localhost:5173', 'http://localhost:5000']
 // var corsOptions = {
 //   origin: function (origin, callback) {
 //     if (whitelist.indexOf(origin) !== -1) {
@@ -23,14 +23,21 @@ const app = express();
 //   Credentials: true, 
 // };
 
+// app.use((req, res, next) => {
+//     res.header('Access-Control-Allow-Origin', '*');
+//     next();
+//   });
+
 //middlewares
+app.use(cors(
+    { origin:   ["https://medico-eight.vercel.app" , "http://localhost:5173"],
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true,
+    optionsSuccessStatus: 204,}
+ ));
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({
-    origin: ["http://localhost:5173", "https://medico-flax.vercel.app"],
-    methods: ["GET", "POST", "PUT", "DELETE"], 
-    credentials: true,
-}));
+
 
 //routes
 app.use("/api/v1/user",userRouter );

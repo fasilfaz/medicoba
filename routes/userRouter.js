@@ -3,6 +3,8 @@ import { getAllNotifications,deleteAllNotifications, login, logout, register} fr
 import authenticateUser from "../middlewares/userMiddleware.js";
 import User from "../models/userModel.js";
 import upload from "../middlewares/imgUploadMdlw.js";
+import { getDrById } from "../controllers/doctorController.js";
+import { appointmentCrl } from "../controllers/appointmentController.js";
 
 const userRouter = express.Router();
 
@@ -19,6 +21,7 @@ userRouter.get("/check-user", authenticateUser, async (req, res) => {
 userRouter.get("/getuser", authenticateUser, async (req, res) => {
 
     const user = req.user;
+    console.log("data", user.data);
     const getUser = await User.findOne({ email: user.data});
      if(!getUser){
         return res.json({message: "can't get user details", success: false})
@@ -35,6 +38,8 @@ userRouter.post("/register",upload.single("image"), register);
 userRouter.post("/logout",logout);
 userRouter.post("/get-notification", getAllNotifications);
 userRouter.post("/delete-notification", deleteAllNotifications);
+userRouter.get("/get-drbyid/:id", authenticateUser, getDrById);
+userRouter.post("/book-appointment", authenticateUser, appointmentCrl)
 
 
 export default userRouter;

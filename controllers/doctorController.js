@@ -1,6 +1,6 @@
 import Doctor from "../models/doctorModel.js";
 import bcrypt from "bcrypt";
-import { doctorToken } from "../utils/generateToken.js";
+import { generateToken } from "../utils/generateToken.js";
 import dotenv from "dotenv"
 import { cloudinaryInstance } from "../config/cloudinary.js";
 import sendMail from "../middlewares/sendMail.js";
@@ -70,7 +70,7 @@ export const register = async (req, res) => {
         if (!newDoctorCreated) {
             return res.status(200).send("Doctor not created");
         }
-        const token = doctorToken(email , role);
+        const token = generateToken(email);
         res.cookie("token", token);
         sendMail(email, "Welcome to Medico Super Speciality Hospital", `Hi Dr. ${firstName} ${lastName} We are delighted to have you join our community. 
             Thank you for registering with us and join our team.`)
@@ -98,8 +98,9 @@ export const login = async (req, res) => {
         if (!isMatch) {
             return res.status(200).send("Invalid Password");
         }
-        const token = doctorToken(email , doctor.role);
+        const token = generateToken(email);
         res.cookie("token", token );
+        console.log(token);
         res.json({message: "Doctor logged in successfully", token});
         console.log("Dr logged in");
     } catch (error) {
@@ -168,4 +169,18 @@ export const updateDr = async (req, res) => {
          }
          console.log(updateDr);
          return res.send("Doctor updated");
+};
+
+export const getDrById = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const doctor = await Doctor.findById({ _id: id });
+    console.log(doctor);
+    if (!doctor) {
+      return res.send("Doctor not found");
+    }
+    return res.json({ message: "doctor get by id", doctor: doctor, success: true });
+  } catch (error) {
+    console.log(error);
+  }
 };
