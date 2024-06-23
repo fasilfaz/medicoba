@@ -1,11 +1,11 @@
 
 import User from "../models/userModel.js";
 import bcrypt from "bcrypt";
-import { generateToken } from "../utils/generateToken.js";
 import { roles } from "../utils/constants.js";
 import dotenv from "dotenv";
 import sendMail from "../middlewares/sendMail.js";
 import { cloudinaryInstance } from "../config/cloudinary.js";
+import { generateToken } from "../utils/generateToken.js";
 dotenv.config();
 
 export const register = async (req, res) => {
@@ -69,9 +69,10 @@ export const register = async (req, res) => {
             }
             const token = generateToken(email);
             res.cookie("token", token );
+            res.json( {message:"Register successfully", token});
             sendMail(email, "Welcome to Medico Super Speciality Hospital", `Hi ${firstName} ${lastName} We are delighted to have you join our community. 
             Thank you for registering with us and trusting us with your healthcare needs.`)
-            res.json( {message:"Register successfully", token});
+            
             console.log("Register successfully")
         });
        

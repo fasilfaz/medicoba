@@ -1,13 +1,13 @@
 import express from "express";
 import { login, register } from '../controllers/doctorController.js';
 import Doctor from '../models/doctorModel.js';
-import authDoctor from "../middlewares/doctorMiddleware.js";
 import upload from "../middlewares/imgUploadMdlw.js";
+import authenticateUser from "../middlewares/userMiddleware.js";
 
 
 const doctorRouter = express.Router();
 
-doctorRouter.get("/check-doctor",authDoctor,  async (req, res) => {
+doctorRouter.get("/check-doctor",authenticateUser,  async (req, res) => {
     const doctor = req.user;
     console.log("data", doctor.data);
     const findDoctor =  await Doctor.findOne({email: doctor.email});
@@ -18,7 +18,7 @@ doctorRouter.get("/check-doctor",authDoctor,  async (req, res) => {
 });
 
 
-doctorRouter.get("/getdr", authDoctor, async (req, res) => {
+doctorRouter.get("/getdr", authenticateUser, async (req, res) => {
     console.log("doctor", req.user)
     const userDetails = req.user;
     console.log("data", userDetails);

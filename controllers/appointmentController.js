@@ -12,7 +12,7 @@ export const appointmentCrl = async (req, res) => {
             message: `A new appointment requist from ${req.body.userInfo.firstName}`,
             onClickPath: '/user/appointments'
         })
-        await user.save();
+        await user.save(); 
         res.status(200).send({
             message: "Appointment booked successfully",
             success: true,
