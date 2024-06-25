@@ -15,7 +15,7 @@ adminRouter.post("/add-services", upload.single("image"), authAdmin, createServi
 adminRouter.get("/get-services", getServices );
 adminRouter.put("/update-services/:id", upload.single("image"), authAdmin, updateService );
 adminRouter.delete("/delete-services/:id", authAdmin, deleteService);
-adminRouter.get("/get-servicesbyid/:id", authAdmin, getServiceId)
+adminRouter.get("/get-servicesbyid/:id",  getServiceId)
 
 
 export default adminRouter;
