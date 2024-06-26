@@ -103,8 +103,8 @@ export const login = async (req, res) => {
     // res.cookie("token", token);
     res.cookie('token',token,{
         httpOnly: true,
-        secure: true, // Ensure to use secure in production
-        sameSite: 'Strict', // Necessary for cross-domain cookies
+        // secure: true, // Ensure to use secure in production
+        // sameSite: 'Strict', // Necessary for cross-domain cookies
     });
     if (email === process.env.ADMIN_EMAIL) {
       return res.json({ message: "Admin logged in successfully", token });
