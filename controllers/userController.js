@@ -70,7 +70,12 @@ export const register = async (req, res) => {
         return res.send("User not created");
       }
       const token = generateToken(email);
-      res.cookie("token", token);
+      // res.cookie("token", token);
+      res.cookie('token',token,{
+        httpOnly: true,
+        secure: true, // Ensure to use secure in production
+        // sameSite: 'Strict', // Necessary for cross-domain cookies
+    });
       res.json({ message: "Register successfully", token });
       sendMail(
         email,
@@ -103,7 +108,7 @@ export const login = async (req, res) => {
     // res.cookie("token", token);
     res.cookie('token',token,{
         httpOnly: true,
-        // secure: true, // Ensure to use secure in production
+        secure: true, // Ensure to use secure in production
         // sameSite: 'Strict', // Necessary for cross-domain cookies
     });
     if (email === process.env.ADMIN_EMAIL) {
