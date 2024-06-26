@@ -88,7 +88,7 @@ dotenv.config();
 
 function authenticateUser(req, res, next) {
     
-  const token = req.cookies.token;
+  const token = req.Cookies.token;
   console.log(token,"authenticated token");
   if (!token) {
     return res
