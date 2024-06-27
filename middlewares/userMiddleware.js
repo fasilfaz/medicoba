@@ -90,7 +90,7 @@ function authenticateUser(req, res, next) {
     
   // const token = req.cookies.token;
   // const token = localStorage.getItem("token");
-  const token = req.headers["authorization"].split(":")[1];
+  const token = req.headers["authorization"].split(" ")[1];
   console.log(token,"authenticated token");
   if (!token) {
     return res
