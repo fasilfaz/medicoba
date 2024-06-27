@@ -89,7 +89,8 @@ dotenv.config();
 function authenticateUser(req, res, next) {
     
   // const token = req.cookies.token;
-  const token = localStorage.getItem("token");
+  // const token = localStorage.getItem("token");
+  const token = req.headers["authorization"].split(":")[1];
   console.log(token,"authenticated token");
   if (!token) {
     return res
@@ -103,7 +104,7 @@ function authenticateUser(req, res, next) {
   jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
     console.log(err);
     if (err) return res.sendStatus(403);
-    req.user = user;
+    req.data = user;
     console.log(user);
     
     next();

@@ -189,7 +189,7 @@ export const deleteAllNotifications = async (req, res) => {
 
 export const getuser = async (req, res) => {
   try {
-    const user = req.user;
+    const user = req.data;
     console.log("dataaa", user.data);
     const getUser = await User.findOne({ email: user.data });
     res.json({ message: "user details get", success: true, data: getUser });
