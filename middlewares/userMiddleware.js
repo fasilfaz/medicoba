@@ -104,6 +104,7 @@ function authenticateUser(req, res, next) {
     console.log(err);
     if (err) return res.sendStatus(403);
     req.user = user;
+    console.log(user);
     
     next();
   });
