@@ -12,8 +12,7 @@ function authDoctor(req, res, next) {
         console.log(token);
 
         jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-            console.log(err);
-            console.log(user, );
+            console.log(err, "err");
 
             req.user = user;
             console.log(req.user, "userr");
