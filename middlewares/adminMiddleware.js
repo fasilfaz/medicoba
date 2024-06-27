@@ -5,8 +5,7 @@ dotenv.config();
 function authAdmin(req, res, next) {
     try {
         // const token = req.cookies.token;
-        const token = localStorage.getItem("token");
-
+        const token = req.headers["authorization"].split(" ")[1];
         if (!token) {
             return res.status(403).send("Unauthorized!");
         }
