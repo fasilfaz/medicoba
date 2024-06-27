@@ -71,11 +71,11 @@ export const register = async (req, res) => {
       }
       const token = generateToken(email);
       // res.cookie("token", token);
-      res.cookie('token',token,{
-        httpOnly: true,
-        secure: true, // Ensure to use secure in production
-        // sameSite: 'Strict', // Necessary for cross-domain cookies
-    });
+    //   res.cookie('token',token,{
+    //     httpOnly: true,
+    //     secure: true, // Ensure to use secure in production
+    //     // sameSite: 'Strict', // Necessary for cross-domain cookies
+    // });
       res.json({ message: "Register successfully", token });
       sendMail(
         email,
@@ -105,7 +105,7 @@ export const login = async (req, res) => {
       return res.status(200).send("Invalid Password");
     }
     const token = generateToken(email);
-    res.cookie("token", token);
+    // res.cookie("token", token);
     // res.cookie('token',token,{
     //     // httpOnly: true,
     //     // secure: true, // Ensure to use secure in production
@@ -122,16 +122,16 @@ export const login = async (req, res) => {
     res.status(500).send("Error while login");
   }
 };
-export const logout = async (req, res) => {
-  try {
-    res.clearCookie("token");
-    res.json({ message: "logged out" });
-    console.log("logged out");
-  } catch (error) {
-    console.error(error, "error");
-    res.status(500).send("Error while logout");
-  }
-};
+// export const logout = async (req, res) => {
+//   try {
+//     res.clearCookie("token");
+//     res.json({ message: "logged out" });
+//     console.log("logged out");
+//   } catch (error) {
+//     console.error(error, "error");
+//     res.status(500).send("Error while logout");
+//   }
+// };
 
 export const getAllUsers = async (req, res) => {
   try {

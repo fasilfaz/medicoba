@@ -3,7 +3,7 @@ import {
   getAllNotifications,
   deleteAllNotifications,
   login,
-  logout,
+  // logout, 
   register,
   getuser,
 } from "../controllers/userController.js";
@@ -46,7 +46,7 @@ userRouter.get("/", (req, res) => {
 
 userRouter.post("/login", login);
 userRouter.post("/register", upload.single("image"), register);
-userRouter.post("/logout", logout);
+// userRouter.post("/logout", logout);
 userRouter.post("/get-notification", getAllNotifications);
 userRouter.post("/delete-notification", deleteAllNotifications);
 userRouter.get("/get-drbyid/:id", authenticateUser, getDrById);

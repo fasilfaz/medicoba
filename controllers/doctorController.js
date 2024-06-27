@@ -71,10 +71,11 @@ export const register = async (req, res) => {
             return res.status(200).send("Doctor not created");
         }
         const token = generateToken(email);
-        res.cookie("token", token);
+        // res.cookie("token", token);
+        res.json( {message:"Register successfully", token});
         sendMail(email, "Welcome to Medico Super Speciality Hospital", `Hi Dr. ${firstName} ${lastName} We are delighted to have you join our community. 
-            Thank you for registering with us and join our team.`)
-            res.json( {message:"Register successfully", token});
+            Thank you for registering with us and join our team.`);
+            
             console.log("Register successfully")
         res.json({ message: "Register successfully", token });
         console.log("Register successfully");
@@ -99,9 +100,9 @@ export const login = async (req, res) => {
             return res.status(200).send("Invalid Password");
         }
         const token = generateToken(email);
-        res.cookie("token", token );
-        console.log(token);
-        res.json({message: "Doctor logged in successfully", token});
+        // res.cookie("token", token );
+        // console.log(token);
+        res.json({message: "Doctor logged in successfully", token: token, success: true});
         console.log("Dr logged in");
     } catch (error) {
         console.error(error);

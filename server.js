@@ -2,7 +2,7 @@ import express from 'express';
 import dotenv from "dotenv";
 import {connectDb} from "./config/db.js";
 import userRouter from './routes/userRouter.js';
-import cookieParser from 'cookie-parser';
+// import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import doctorRouter from './routes/doctorRouter.js';
 import adminRouter from './routes/adminRouter.js';
@@ -31,15 +31,15 @@ const app = express();
 //middlewares
 app.use(cors(
     { 
-        origin:   ["https://medico-eight.vercel.app" , "http://localhost:5173"],
-        // origin: "https://medico-eight.vercel.app",
+        // origin:   ["https://medico-eight.vercel.app" , "http://localhost:5173"],
+        origin: "https://medico-eight.vercel.app",
     // methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true,
     // optionsSuccessStatus: 204,
 }
 ));
 app.use(express.json());
-app.use(cookieParser());
+// app.use(cookieParser());
 
 
 

@@ -6,7 +6,8 @@ dotenv.config();
 
 function authDoctor(req, res, next) {
     try {
-        const token = req.cookies.token;
+        // const token = req.cookies.token;
+        const token = localStorage.getItem("token");
         console.log(token);
 
         jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
