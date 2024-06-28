@@ -45,5 +45,10 @@ export const appointmentCrl = async (req, res) => {
         });
     } catch (error) {
         console.log(error, "something error in appointment");
+        res.status(500).json({
+            success: false,
+            message: "Internal server error",
+        });
+
     }
 }
