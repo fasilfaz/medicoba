@@ -57,7 +57,7 @@ export const updateService = async (req, res) => {
         return res.send("Service not updated");
     }
     console.log(updatedService);
-    return res.send("service updated");
+    return res.json({ message: "service updated" , success: true });
 };
 
 export const getServiceId = async (req, res) => {
