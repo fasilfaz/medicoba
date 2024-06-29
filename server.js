@@ -31,8 +31,8 @@ const app = express();
 //middlewares
 app.use(cors(
     { 
-        origin:   ["https://medico-eight.vercel.app" , "http://localhost:5173"],
-        // origin: "https://medico-eight.vercel.app",
+        // origin:   ["https://medico-eight.vercel.app" , "http://localhost:5173"],
+        origin: "https://medico-eight.vercel.app",
     // methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true,
     // optionsSuccessStatus: 204,
