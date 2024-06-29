@@ -2,14 +2,26 @@ import mongoose from "mongoose";
 
 const  appointmentSchema = new mongoose.Schema({
    
-    doctorInfo: {
+    doctorFName: {
         type:String,
         required:true,
     },
-    userInfo: {
+    userFName: {
         type:String,
         required:true,
     },
+    userLName: {
+        type:String,
+        required:true,
+    },
+    doctorLName: {
+        type:String,
+        required:true,
+    },
+    userPhoneNumber: {
+        type:Number,
+        required:true,
+    }
 }, {
     timestamps:true,
 })
