@@ -28,7 +28,7 @@ export const appointmentCrl = async (req, res) => {
         console.log(error, "something error in appointment");
         res.status(500).json({
             success: false,
-            message: "Internal server error",
+            message: "Internal server error in appointment",
         });
 
     }
