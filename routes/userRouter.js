@@ -50,7 +50,7 @@ userRouter.post("/register", upload.single("image"), register);
 userRouter.post("/get-notification", getAllNotifications);
 userRouter.post("/delete-notification", deleteAllNotifications);
 userRouter.get("/get-drbyid/:id", authenticateUser, getDrById);
-userRouter.get("/book-appointment", authenticateUser, appointmentCrl);
+userRouter.post("/book-appointment", authenticateUser, appointmentCrl);
 userRouter.get("/getuser", authenticateUser, getuser);
 
 export default userRouter;
