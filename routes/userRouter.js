@@ -1,7 +1,7 @@
 import express from "express";
 import {
-  getAllNotifications,
-  deleteAllNotifications,
+  // getAllNotifications,
+  // deleteAllNotifications,
   login,
   // logout, 
   register,
@@ -47,10 +47,10 @@ userRouter.get("/", (req, res) => {
 userRouter.post("/login", login);
 userRouter.post("/register", upload.single("image"), register);
 // userRouter.post("/logout", logout);
-userRouter.post("/get-notification", getAllNotifications);
-userRouter.post("/delete-notification", deleteAllNotifications);
+// userRouter.post("/get-notification", getAllNotifications);
+// userRouter.post("/delete-notification", deleteAllNotifications);
 userRouter.get("/get-drbyid/:id", authenticateUser, getDrById);
-userRouter.get("/book-appointment", authenticateUser, appointmentCrl);
+userRouter.post("/book-appointment",  appointmentCrl);
 userRouter.get("/getuser", authenticateUser, getuser);
 
 export default userRouter;

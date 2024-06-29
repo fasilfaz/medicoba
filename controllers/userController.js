@@ -142,50 +142,50 @@ export const getAllUsers = async (req, res) => {
   }
 };
 
-export const getAllNotifications = async (req, res) => {
-  try {
-    const user = await User.findOne({ _id: req.body.userId });
-    const notifications = user.notifications;
-    const seennotifications = user.seennotifications;
-    seennotifications.push(...notifications);
-    user.notifications = [];
-    user.seennotifications = notifications;
-    const updatedUser = await user.save();
-    res.status(200).send({
-      message: "All Notifications fetched",
-      success: true,
-      data: updatedUser,
-    });
-  } catch (error) {
-    console.log(error);
-    res
-      .status(500)
-      .send({ message: "Error in notification", success: false, error });
-  }
-};
-export const deleteAllNotifications = async (req, res) => {
-  try {
-    const user = await User.findOne({ _id: req.body.userId });
-    user.notifications = [];
-    user.seennotifications = [];
-    const updatedUser = await user.save();
-    updatedUser.hashPassword = undefined;
-    res.status(200).send({
-      message: "All Notifications deleted",
-      success: true,
-      data: updatedUser,
-    });
-  } catch (error) {
-    console.log(error);
-    res
-      .status(500)
-      .send({
-        message: "unable to delete notification",
-        success: false,
-        error,
-      });
-  }
-};
+// export const getAllNotifications = async (req, res) => {
+//   try {
+//     const user = await User.findOne({ _id: req.body.userId });
+//     const notifications = user.notifications;
+//     const seennotifications = user.seennotifications;
+//     seennotifications.push(...notifications);
+//     user.notifications = [];
+//     user.seennotifications = notifications;
+//     const updatedUser = await user.save();
+//     res.status(200).send({
+//       message: "All Notifications fetched",
+//       success: true,
+//       data: updatedUser,
+//     });
+//   } catch (error) {
+//     console.log(error);
+//     res
+//       .status(500)
+//       .send({ message: "Error in notification", success: false, error });
+//   }
+// };
+// export const deleteAllNotifications = async (req, res) => {
+//   try {
+//     const user = await User.findOne({ _id: req.body.userId });
+//     user.notifications = [];
+//     user.seennotifications = [];
+//     const updatedUser = await user.save();
+//     updatedUser.hashPassword = undefined;
+//     res.status(200).send({
+//       message: "All Notifications deleted",
+//       success: true,
+//       data: updatedUser,
+//     });
+//   } catch (error) {
+//     console.log(error);
+//     res
+//       .status(500)
+//       .send({
+//         message: "unable to delete notification",
+//         success: false,
+//         error,
+//       });
+//   }
+// };
 
 export const getuser = async (req, res) => {
   try {
