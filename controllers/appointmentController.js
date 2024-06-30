@@ -11,8 +11,8 @@ export const appointmentCrl = async (req, res) => {
     try {
         const body = req.body;
         console.log(body);
-        const {  doctorFName, userFName,userLName,doctorLName, userPhoneNumber} = body;
-        const newAppointment = new Appointment({doctorFName, userFName,userLName,doctorLName, userPhoneNumber });
+        const {  doctorFName, userFName,userLName,doctorLName, userPhoneNumber, appointmentDate} = body;
+        const newAppointment = new Appointment({doctorFName, userFName,userLName,doctorLName, userPhoneNumber,appointmentDate });
         const createdAppointment = await newAppointment.save();
         if (!createdAppointment) {
             return res.status(400).json({
