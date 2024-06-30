@@ -25,6 +25,7 @@ const  appointmentSchema = new mongoose.Schema({
     appointmentDate: {
         type: Date,
         required: true,
+        get: (val) => val.toLocaleString('en-US', { day: 'numeric' ,month: 'long',year: 'numeric',  }),
     }
 }, {
     timestamps:true,
