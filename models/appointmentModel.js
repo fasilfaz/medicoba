@@ -25,6 +25,7 @@ const  appointmentSchema = new mongoose.Schema({
     appointmentDate: {
         type: Date,
         required: true,
+        default: Date.now,
     }
 }, {
     timestamps:true,
