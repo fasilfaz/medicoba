@@ -37,7 +37,7 @@ export const register = async (req, res) => {
                 age,
                 gender,
                 bloodGroup,
-                role, 
+                 
                  } = body;
 
         const doctorExist = await Doctor.findOne({ email}); 

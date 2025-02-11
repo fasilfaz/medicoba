@@ -29,15 +29,13 @@ const app = express();
 //   });
 
 //middlewares
-app.use(cors(
-    { 
-        // origin:   ["https://medico-eight.vercel.app" , "http://localhost:5173"],
-        origin: "https://medico-eight.vercel.app",
-    // methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+app.use(cors({
+    origin: "https://medico-eight.vercel.app",
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
-    // optionsSuccessStatus: 204,
-}
-));
+    optionsSuccessStatus: 204
+}));
 app.use(express.json());
 // app.use(cookieParser());
 
